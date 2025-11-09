@@ -1,0 +1,30 @@
+.primary {
+    font-size: 11px !important;
+    background-color: rgb(67, 78, 233) !important;
+    text-transform: capitalize !important;
+    min-width: 70px !important;
+}
+
+.danger {
+    font-size: 11px !important;
+    background-color: rgb(220, 53, 69) !important;
+    color: white !important;
+    text-transform: capitalize !important;
+    min-width: 70px !important;
+}
+
+.secondary {
+    font-size: 11px !important;
+    background-color: rgb(139, 139, 139) !important;
+    color: white !important;
+    text-transform: capitalize !important;
+    min-width: 70px !important;
+}
+
+.success {
+    font-size: 11px !important;
+    background-color: rgb(40, 167, 69) !important;
+    color: white !important;
+    text-transform: capitalize !important;
+    min-width: 70px !important;
+}

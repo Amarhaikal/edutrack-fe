@@ -1,0 +1,124 @@
+.textbox-container {
+  margin: 8px 0;
+  width: 100%;
+}
+
+.textbox-field {
+  width: 100%;
+}
+
+.textbox-field .MuiOutlinedInput-root {
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.textbox-field .MuiOutlinedInput-root:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.textbox-field .MuiOutlinedInput-root.Mui-focused {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.textbox-field .MuiOutlinedInput-root.Mui-error {
+  box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.2);
+}
+
+/* Label styling - override Material-UI defaults */
+.textbox-field .MuiInputLabel-root {
+  font-weight: 500;
+  color: white !important;
+}
+
+.textbox-field .MuiInputLabel-root.Mui-focused {
+  color: white !important;
+}
+
+.textbox-field .MuiInputLabel-root.Mui-error {
+  color: #ff4d4d !important;
+}
+
+/* Input text color */
+.textbox-field .MuiOutlinedInput-input {
+  color: white !important;
+}
+
+/* Placeholder text color */
+.textbox-field .MuiOutlinedInput-input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+  opacity: 1;
+}
+
+/* Border styling */
+.textbox-field .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  border-width: 1px;
+}
+
+.textbox-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.textbox-field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
+  border-width: 2px;
+}
+
+.textbox-field .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+  border-color: #ff4d4d !important;
+}
+
+/* Helper text styling */
+.textbox-field .MuiFormHelperText-root {
+  margin-left: 0;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Error state helper text - higher specificity to override default */
+.textbox-field .MuiTextField-root .MuiFormHelperText-root.Mui-error,
+.textbox-field .MuiFormHelperText-root.Mui-error,
+.MuiFormControl-root.textbox-field .MuiFormHelperText-root.Mui-error {
+  color: #ff4d4d !important;
+}
+
+/* Legend text color (the label text inside the border) */
+.textbox-field .MuiOutlinedInput-notchedOutline legend span {
+  color: white !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .textbox-container {
+    margin: 6px 0;
+  }
+  
+  .textbox-field .MuiOutlinedInput-root {
+    border-radius: 6px;
+  }
+}
+
+/* Disabled state */
+.textbox-field .MuiOutlinedInput-root.Mui-disabled {
+  background-color: rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+}
+
+.textbox-field .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.textbox-field .MuiOutlinedInput-root.Mui-disabled .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Small size adjustments */
+.textbox-field .MuiOutlinedInput-root.MuiInputBase-sizeSmall {
+  font-size: 0.875rem;
+}
+
+.textbox-field .MuiInputLabel-root.MuiInputLabel-sizeSmall {
+  font-size: 0.875rem;
+}
+

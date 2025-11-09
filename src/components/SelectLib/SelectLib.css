@@ -1,0 +1,215 @@
+.select-container {
+  margin: 8px 0;
+  width: 100%;
+}
+
+.select-form-control {
+  width: 100%;
+}
+
+.select-field {
+  width: 100%;
+}
+
+.select-field .MuiOutlinedInput-root {
+  border-radius: 8px !important;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Override MUI's generated Select component border-radius */
+.select-field [class*="MuiInputBase-root"][class*="MuiOutlinedInput-root"][class*="MuiSelect-root"] {
+  border-radius: 8px !important;
+}
+
+/* Target any generated CSS class that contains the pattern */
+[class*="MuiInputBase-root"][class*="MuiOutlinedInput-root"][class*="MuiSelect-root"] {
+  border-radius: 8px !important;
+}
+
+.select-field .MuiOutlinedInput-root:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.select-field .MuiOutlinedInput-root.Mui-focused {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.select-field .MuiOutlinedInput-root.Mui-error {
+  box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.2);
+}
+
+/* Label styling - override Material-UI defaults */
+.select-field .MuiInputLabel-root,
+.select-field .MuiFormLabel-root,
+.select-field .MuiInputLabel-formControl,
+.select-field .MuiInputLabel-animated,
+.select-field .MuiInputLabel-outlined,
+.select-field .MuiFormLabel-colorPrimary,
+.select-field [class*="MuiFormLabel-root"],
+.select-field [class*="MuiInputLabel-root"] {
+  font-weight: 500;
+  color: white !important;
+}
+
+.select-field .MuiInputLabel-root.Mui-focused,
+.select-field .MuiFormLabel-root.Mui-focused,
+.select-field .MuiInputLabel-formControl.Mui-focused,
+.select-field .MuiInputLabel-animated.Mui-focused,
+.select-field .MuiInputLabel-outlined.Mui-focused,
+.select-field .MuiFormLabel-colorPrimary.Mui-focused {
+  color: white !important;
+}
+
+.select-field .MuiInputLabel-root.Mui-error,
+.select-field .MuiFormLabel-root.Mui-error,
+.select-field .MuiInputLabel-formControl.Mui-error,
+.select-field .MuiInputLabel-animated.Mui-error,
+.select-field .MuiInputLabel-outlined.Mui-error,
+.select-field .MuiFormLabel-colorPrimary.Mui-error {
+  color: #ff4d4d !important;
+}
+
+/* Select text color */
+.select-field .MuiSelect-select {
+  color: white !important;
+}
+
+/* Border styling */
+.select-field .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  border-width: 1px;
+}
+
+.select-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.select-field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
+  border-width: 2px;
+}
+
+.select-field .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+  border-color: #ff4d4d !important;
+}
+
+/* Helper text styling */
+.select-helper-text {
+  margin-left: 0;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Error state helper text - higher specificity */
+.select-container .select-helper-text.error,
+.select-helper-text.error {
+  color: #ff4d4d !important;
+}
+
+/* Legend text color (the label text inside the border) */
+.select-field .MuiOutlinedInput-notchedOutline legend span {
+  color: white !important;
+}
+
+/* Dropdown arrow color */
+.select-field .MuiSelect-icon {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.select-field .MuiSelect-icon.Mui-focused {
+  color: white !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .select-container {
+    margin: 6px 0;
+  }
+  
+  .select-field .MuiOutlinedInput-root {
+    border-radius: 6px;
+  }
+}
+
+/* Disabled state */
+.select-field .MuiOutlinedInput-root.Mui-disabled {
+  background-color: rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+}
+
+.select-field .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.select-field .MuiOutlinedInput-root.Mui-disabled .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Disabled text color - light gray for disabled select text */
+.select-field .MuiSelect-select.Mui-disabled {
+  color: rgba(255, 255, 255, 0.6) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.6) !important;
+  cursor: not-allowed;
+}
+
+/* Disabled label color - light gray for dark mode */
+.select-field .MuiInputLabel-root.Mui-disabled,
+.select-field .MuiFormLabel-root.Mui-disabled {
+  color: rgba(255, 255, 255, 0.6) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Disabled dropdown arrow */
+.select-field .MuiSelect-icon.Mui-disabled {
+  color: rgba(255, 255, 255, 0.5) !important;
+  cursor: not-allowed;
+}
+
+/* Ensure cursor is not-allowed for the entire disabled select */
+.select-form-control.Mui-disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.select-form-control.Mui-disabled * {
+  cursor: not-allowed !important;
+}
+
+/* Small size adjustments */
+.select-field .MuiOutlinedInput-root.MuiInputBase-sizeSmall {
+  font-size: 0.875rem;
+}
+
+.select-field .MuiInputLabel-root.MuiInputLabel-sizeSmall {
+  font-size: 0.875rem;
+}
+
+/* Force override for any MUI generated classes */
+.select-field label,
+.select-field .MuiFormLabel-root,
+.select-field .MuiInputLabel-root {
+  color: white !important;
+}
+
+/* Override MUI's generated CSS classes with higher specificity */
+.select-field [class*="css-"][class*="MuiFormLabel-root"],
+.select-field [class*="css-"][class*="MuiInputLabel-root"] {
+  color: white !important;
+}
+
+/* Most aggressive override - target any element with the specific pattern */
+.select-field [id*="role-label"],
+.select-field [id*="-label"] {
+  color: white !important;
+}
+
+/* Nuclear option - override any CSS class that contains the pattern */
+[class*="css-"][class*="MuiFormLabel-root"][class*="MuiInputLabel-root"] {
+  color: white !important;
+}
+
+/* Target the specific generated class pattern */
+[class*="19qnlrw"][class*="MuiFormLabel-root"][class*="MuiInputLabel-root"] {
+  color: white !important;
+}

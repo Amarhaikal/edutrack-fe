@@ -1,0 +1,106 @@
+/* TableLib Styles */
+
+/* Header Styles */
+.table-header-cell {
+  font-size: 11px !important;
+  color: white !important;
+  background-color: rgb(67, 78, 233) !important;
+}
+
+/* Data Row Styles */
+.table-data-cell {
+  color: white;
+  background-color: rgb(82, 63, 202);
+}
+
+/* Loading State Styles */
+.table-loading-cell {
+  text-align: center;
+  padding: 40px;
+  background-color: rgb(42, 40, 56);
+}
+
+.table-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.table-loading-text {
+  color: white;
+  font-size: 14px;
+}
+
+/* Empty State Styles */
+.table-empty-cell {
+  text-align: left;
+  color: white;
+  background-color: rgb(42, 40, 56);
+}
+
+/* Table Container */
+.table-container {
+  max-height: 440px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Remove table borders */
+.table-container .MuiTable-root {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table-container .MuiTableCell-root {
+  border: none !important;
+}
+
+.table-container .MuiTableRow-root {
+  border: none !important;
+}
+
+/* Pagination Styles */
+.table-pagination {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.table-pagination .MuiTablePagination-selectLabel {
+  color: white;
+  margin-bottom: 0;
+  align-self: center;
+}
+
+.table-pagination .MuiTablePagination-displayedRows {
+  color: white;
+  margin-bottom: 0;
+  align-self: center;
+}
+
+.table-pagination .MuiTablePagination-select {
+  color: white;
+  margin-bottom: 0;
+  align-self: center;
+}
+
+.table-pagination .MuiTablePagination-selectIcon {
+  color: white;
+  align-self: center;
+}
+
+.table-pagination .MuiIconButton-root {
+  color: white;
+  align-self: center;
+}
+
+.table-pagination .MuiIconButton-root.Mui-disabled {
+  color: white !important;
+}
+
+.table-pagination .MuiTablePagination-toolbar {
+  align-items: center;
+  min-height: 52px;
+}

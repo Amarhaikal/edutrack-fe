@@ -1,0 +1,210 @@
+pipeline {
+    agent any
+
+    environment {
+        GITHUB_CREDENTIAL_ID = 'your-github-credential-id'
+        SSH_CREDENTIAL_ID = 'your-ssh-credential-id'
+        DEPLOY_DIR = '/path/to/your/deploy/directory'
+        REMOTE_USER = 'your-remote-user'
+        REMOTE_HOST = 'your-server-ip-or-domain'
+        SSH_PORT = '22'
+        NODE_VERSION = '18'
+    }
+
+    stages {
+            stage('Clone Repository') {
+                steps {
+                    withCredentials([usernamePassword(
+                        credentialsId: "${GITHUB_CREDENTIAL_ID}",
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'TOKEN'
+                    )]) {
+                        git url: "https://${USERNAME}:${TOKEN}@github.com/YOUR-USERNAME/YOUR-REPO.git", branch: 'main'
+                    }
+                }
+            }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    # Install npm dependencies
+                    npm ci --prefer-offline --no-audit
+                '''
+            }
+        }
+
+        stage('Build Application') {
+            steps {
+                sh '''
+                    # Build the React application
+                    npm run build
+
+                    # Verify build output
+                    ls -la dist/
+                '''
+            }
+        }
+
+       stage('Deploy to Server') {
+            steps {
+                sshagent(credentials: ["${SSH_CREDENTIAL_ID}"]) {
+                    sh '''
+                        # Create deployment directory if it doesn't exist
+                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${REMOTE_USER}@${REMOTE_HOST} "
+                            sudo mkdir -p ${DEPLOY_DIR} && \\
+                            sudo chown -R ${REMOTE_USER}:${REMOTE_USER} ${DEPLOY_DIR}
+                        "
+
+                        # Remove old backup if it exists (with proper permissions)
+                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${REMOTE_USER}@${REMOTE_HOST} "
+                            if [ -d ${DEPLOY_DIR}/dist.backup.* ]; then
+                                sudo rm -rf ${DEPLOY_DIR}/dist.backup.*
+                            fi
+                        "
+
+                        # Create new backup if dist exists
+                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${REMOTE_USER}@${REMOTE_HOST} "
+                            if [ -d ${DEPLOY_DIR}/dist ]; then
+                                sudo cp -r ${DEPLOY_DIR}/dist ${DEPLOY_DIR}/dist.backup.\\$(date +%Y%m%d_%H%M%S) && \\
+                                sudo chown -R ${REMOTE_USER}:${REMOTE_USER} ${DEPLOY_DIR}/dist.backup.*
+                            fi
+                        "
+
+                        # Sync built files to server
+                        # Deploy only the dist folder contents
+                        rsync -rlpgoD --delete --force \\
+                            --no-times --no-perms \\
+                            -e "ssh -p ${SSH_PORT}" \\
+                            ./dist/ ${REMOTE_USER}@${REMOTE_HOST}:${DEPLOY_DIR}/dist/
+                    '''
+                }
+            }
+         }
+
+        stage('Post-Deploy Tasks') {
+            steps {
+                sshagent(credentials: ["${SSH_CREDENTIAL_ID}"]) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${REMOTE_USER}@${REMOTE_HOST} "
+                            cd ${DEPLOY_DIR} && \\
+
+                            # Set proper permissions for web server
+                            sudo chown -R ${REMOTE_USER}:www-data . && \\
+                            sudo chmod -R 755 . && \\
+
+                            # Ensure dist directory has correct permissions
+                            if [ -d dist ]; then
+                                sudo chmod -R 755 dist/ && \\
+                                sudo chown -R ${REMOTE_USER}:www-data dist/
+                            fi && \\
+
+                            # Remove old backup if deployment is successful
+                            if [ -d dist ] && [ -d dist.backup.* ]; then
+                                sudo rm -rf dist.backup.*
+                            fi && \\
+
+                            echo 'React application deployed successfully!'
+                        "
+                    '''
+                }
+            }
+        }
+
+        stage('Configure Nginx') {
+            steps {
+                sshagent(credentials: ["${SSH_CREDENTIAL_ID}"]) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${REMOTE_USER}@${REMOTE_HOST} "
+                            # Create nginx directories if they don't exist
+                            sudo mkdir -p /etc/nginx/sites-available
+                            sudo mkdir -p /etc/nginx/sites-enabled
+
+                            # Create nginx config for React SPA
+                            sudo tee /etc/nginx/sites-available/your-app > /dev/null <<'EOF'
+server {
+    listen 80;
+    server_name your-domain.com;
+    root /path/to/your/deploy/directory/dist;
+    index index.html;
+
+    # Handle React Router - serve index.html for all routes
+    location / {
+        try_files \\$uri \\$uri/ /index.html;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control 'public, immutable';
+        add_header Vary Accept-Encoding;
+    }
+
+    # Security headers
+    add_header X-Frame-Options 'SAMEORIGIN' always;
+    add_header X-Content-Type-Options 'nosniff' always;
+    add_header X-XSS-Protection '1; mode=block' always;
+    add_header Referrer-Policy 'strict-origin-when-cross-origin' always;
+
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types
+        text/plain
+        text/css
+        text/xml
+        text/javascript
+        application/json
+        application/javascript
+        application/xml+rss
+        application/atom+xml
+        image/svg+xml;
+}
+EOF
+
+                            # For AlmaLinux/CentOS, add our config directly to nginx.conf
+                            # Check if sites-enabled is included in nginx.conf
+                            if ! grep -q 'sites-enabled' /etc/nginx/nginx.conf; then
+                                # Add include for sites-enabled in the http block (before the default server block)
+                                sudo sed -i '/^[[:space:]]*server[[:space:]]*{/i\\    include /etc/nginx/sites-enabled/*;' /etc/nginx/nginx.conf
+                            fi
+
+                            # Enable the site
+                            sudo ln -sf /etc/nginx/sites-available/your-app /etc/nginx/sites-enabled/your-app
+
+                            # Remove default site if it exists
+                            sudo rm -f /etc/nginx/sites-enabled/default
+
+                            # Disable default server block in main nginx.conf
+                            sudo sed -i '/^[[:space:]]*server[[:space:]]*{/,/^[[:space:]]*}/s/^/#/' /etc/nginx/nginx.conf
+
+                            # Test nginx config and restart
+                            sudo nginx -t && sudo systemctl reload nginx
+
+                            echo 'Nginx configuration updated successfully!'
+                        "
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'React deployment successful!'
+            echo 'Your React app should be available at: http://your-domain.com'
+        }
+        failure {
+            echo 'React deployment failed.'
+        }
+        always {
+            sh '''
+                # Clean up workspace
+                rm -rf dist/
+                rm -rf node_modules/
+            '''
+        }
+    }
+}

@@ -1,0 +1,20 @@
+.dialog-lib .dialog-title {
+  padding: 16px 24px 8px 24px;
+  font-weight: 600;
+  color: white;
+}
+
+.dialog-lib .dialog-content {
+  padding: 0px inherit 16px 24px;
+  color: white;
+}
+
+.dialog-lib .dialog-actions {
+  padding: 8px 16px 16px 16px;
+  gap: 8px;
+}
+
+.dialog-lib .MuiDialog-paper {
+  border-radius: 8px;
+  background-color: #2a2838;
+}

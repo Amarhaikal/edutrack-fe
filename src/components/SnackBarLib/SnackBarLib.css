@@ -1,0 +1,10 @@
+/* SnackBarLib Component Styles */
+/* Note: Most styling is handled by Material-UI sx props, but you can add custom CSS here if needed */
+
+.snackbar-lib-container {
+  /* Custom container styles can go here */
+}
+
+.snackbar-lib-alert {
+  /* Custom alert styles can go here */
+}

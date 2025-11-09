@@ -1,0 +1,85 @@
+/* React Pro Sidebar Custom Styles - Dark Theme */
+/* Force dark theme on all sidebar elements */
+
+/* Main sidebar background */
+.ps-sidebar-root {
+  background-color: #24222e !important; /* Primary color for main sidebar */
+  border-right: 1px solid #333 !important;
+}
+
+/* Sidebar container */
+.ps-sidebar-container {
+  background-color: #24222e !important;
+}
+
+/* Target the generated CSS class specifically */
+.ps-sidebar-container[class*="css-"] {
+  background-color: #24222e !important;
+}
+
+/* Force override any generated CSS */
+.ps-sidebar-container[style*="background"] {
+  background-color: #24222e !important;
+}
+
+/* All menu buttons */
+.ps-menu-button {
+  background-color: #24222e !important; /* Primary color */
+  color: #e0e0e0 !important; /* Light text color for better contrast */
+}
+
+/* Active/selected menu button */
+.ps-menu-button.ps-active {
+  background-color: #222030 !important; /* Secondary color for selected menu */
+  color: white !important;
+}
+
+/* Hover state for menu buttons */
+.ps-menu-button:hover {
+  background-color: #2a2838 !important; /* Slightly lighter than primary for hover */
+}
+
+/* Submenu content background */
+.ps-submenu-content {
+  background-color: #24222e !important; /* Primary color for submenu background */
+}
+
+/* Submenu labels */
+.ps-submenu-label {
+  background-color: #24222e !important;
+  color: #e0e0e0 !important;
+}
+
+/* Submenu expand icon */
+.ps-submenu-expand-icon {
+  color: #e0e0e0 !important;
+}
+
+/* Menu item icons */
+.ps-menu-button svg {
+  color: #e0e0e0 !important;
+}
+
+/* Force dark theme on all sidebar children */
+.ps-sidebar-root * {
+  background-color: #24222e !important;
+}
+
+/* Override any light backgrounds */
+.ps-menu-root {
+  background-color: #24222e !important;
+}
+
+.ps-menu {
+  background-color: #24222e !important;
+}
+
+/* Nuclear option - override any generated CSS */
+[class*="css-"] {
+  background-color: #24222e !important;
+}
+
+/* Target any element with background-color in style attribute */
+[style*="background-color"] {
+  background-color: #24222e !important;
+}
